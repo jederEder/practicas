@@ -1,0 +1,61 @@
+Set-ExecutionPolicy AllSigned
+C:\Scripts\Get-ServiceLog.ps1
+.\Get-ServiceLog.ps1 -ServiceName WinRM
+Invoke-Command -ComputerName Server01,Server02 -FilePath `
+  C:\Scripts\Get-ServiceLog.ps1param ($ComputerName = $(throw "ComputerName parameter is required."))
+
+function CanPing {
+   $error.clear()
+   $tmp = test-connection $computername -erroraction SilentlyContinue
+
+   if (!$?)
+       {write-host "Ping failed: $ComputerName."; return $false}
+   else
+       {write-host "Ping succeeded: $ComputerName"; return $true}
+}
+
+function CanRemote {
+    $s = new-pssession $computername -erroraction SilentlyContinue
+
+    if ($s -is [System.Management.Automation.Runspaces.PSSession])
+        {write-host "Remote test succeeded: $ComputerName."}
+    else
+        {write-host "Remote test failed: $ComputerName."}
+}
+
+if (CanPing $computername) {CanRemote $computername}In UtilityFunctions.ps1
+
+function New-Profile
+{
+  Write-Host "Running New-Profile function"
+  $profileName = split-path $profile -leaf
+
+  if (test-path $profile)
+    {write-error "Profile $profileName already exists on this computer."}
+  else
+    {new-item -type file -path $profile -force }
+}
+C:\PS> .\UtilityFunctions.ps1
+
+C:\PS> New-Profile
+The term 'new-profile' is not recognized as a cmdlet, function, operable
+program, or script file. Verify the term and try again.
+At line:1 char:12
++ new-profile <<<<
+   + CategoryInfo          : ObjectNotFound: (new-profile:String) [],
+   + FullyQualifiedErrorId : CommandNotFoundException
+
+C:\PS> $profileName
+C:\PS>
+C:\PS> . .\UtilityFunctions.ps1
+
+C:\PS> New-Profile
+
+    Directory: C:\Users\juneb\Documents\WindowsPowerShell
+
+    Mode    LastWriteTime     Length Name
+    ----    -------------     ------ ----
+    -a---   1/14/2009 3:08 PM      0 Microsoft.PowerShellISE_profile.ps1
+
+C:\PS> $profileName
+Microsoft.PowerShellISE_profile.ps1
