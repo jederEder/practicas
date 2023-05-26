@@ -1,0 +1,48 @@
+C:\Users\usuario1.000>ftp
+ftp> open 192.168.8.127 212
+Conectado a 192.168.8.127.
+220-FileZilla Server 0.9.60 beta
+220-written by Tim Kosse (tim.kosse@filezilla-project.org)
+220 Please visit https://filezilla-project.org/
+202 UTF8 mode is always enabled. No need to send this command.
+Usuario (192.168.8.127:(none)): ftp1
+331 Password required for ftp1
+Contraseña:
+230 Logged on
+dir -C
+dir -Rftp> get file1.txt
+200 Port command successful
+150 Opening data channel for file download from server of "/ftp_remoto/directorio1/file1.txt"
+226 Successfully transferred "/ftp_remoto/directorio1/file1.txt"
+ 
+ mget *.txt
+ftp> mget *.txt
+200 Type set to A
+mget file1.txt? y
+200 Port command successful
+150 Opening data channel for file download from server of "/directorio1/file1.txt"
+226 Successfully transferred "/directorio1/file1.txt"
+mget file2.txt? y
+200 Port command successful
+150 Opening data channel for file download from server of "/directorio1/file2.txt"
+226 Successfully transferred "/directorio1/file2.txt"
+ cd ~
+cd /
+ftp> cd /
+250 CWD successful. "/" is current directory.
+ftp> pwd
+257 "/" is current directory.
+ftp> lcd
+Directorio local ahora C:\Users\usuario1.000.
+ftp> pwd
+257 "/" is current directory.
+ftp> ls
+200 Port command successful
+150 Opening data channel for directory listing of "/"
+ftp_remoto
+.profile
+dir_local1
+Nuevo documento de texto.txt
+226 Successfully transferred "/"
+ftp: 67 bytes recibidos en 0.00segundos 22.33a KB/s.
+ 
